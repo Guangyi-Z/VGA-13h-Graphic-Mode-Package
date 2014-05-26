@@ -28,80 +28,44 @@
     mov cx, 25
     call drawTriangle
     mov ax, 180
-    mov dl, 30
+    mov dl, 150
     mov dh, 80
     mov cx, 25
-    call drawCircle
+    call drawRightQuarterCircle
 
     jmp $
-
-drawCircle:
-    push ax
-    push bx
-    push cx
-    push dx
-    call drawUpperCircle
-    call drawLowerCircle
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    ret
-
-
 
 ; ax: center x 
 ; dl: center y
 ; dh: color
 ; cl: radius
-drawUpperCircle:
+drawRightQuarterCircle:
     push ax
     push bx
     push cx
     push dx
     mov bl, dl
     sub dl, cl
-    mov cx, 0
-drawUpperCircleBegin:
-    call drawHorizontalLine
+    ;mov cx, 0
+drawRightQuarterCircleBegin:
     inc dl
-    add cx, 2
-    sub ax, 1
-    cmp bl, dl
-    jnz drawUpperCircleBegin
-    pop dx
-    pop cx
-    pop bx
-    pop ax
-    ret
-    
-
-; ax: center x 
-; dl: center y
-; dh: color
-; cl: radius
-drawLowerCircle:
-    push ax
-    push bx
     push cx
-    push dx
-    mov bl, dl
-    add bl, cl
-    add dl, cl
-    add ax, cx
-drawLowerCircleBegin:
+    push ax
+    mov al, bl
+    sub al, dl
+    call getCircleLineLength
+    xor ah, ah
+    mov cx, ax
+    pop ax
     call drawHorizontalLine
-    inc dl
-    sub cx, 2
-    add ax, 1
+    pop cx
     cmp bl, dl
-    jnz drawLowerCircleBegin
+    jnz drawRightQuarterCircleBegin
     pop dx
     pop cx
     pop bx
     pop ax
     ret
-    
 
 ; ax: bottom edge center x 
 ; dl: bottom edge center y
@@ -207,6 +171,44 @@ drawHorizontalLineSetX:
     pop cx
     pop dx
     pop ax
+    ret
+
+; cl: r
+; al: distance from center
+; return :al - length of return line
+getCircleLineLength:
+    push bx
+    push cx
+    push dx
+
+    mov dl, al
+    mov ah, al
+    mov al, cl
+    mov ch, cl
+    mul ch ; result: ah:al
+    mov cx, ax
+
+    mov al, dl
+    mov dh, dl
+    mul dh ; result: dh:al
+    mov dx, ax
+
+    sub cx, dx
+
+    mov dl, 0
+Undone:
+    inc dl
+    mov ah, dl
+    mov al, dl
+    mul ah
+    cmp ax, cx
+    jc Undone
+    xor ax, ax
+    mov al, dl
+
+    pop dx
+    pop cx
+    pop bx
     ret
 
 SetModeGraphic:
