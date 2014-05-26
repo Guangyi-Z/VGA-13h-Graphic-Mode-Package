@@ -6,7 +6,7 @@
 
 The following is assuming you are using \*nix or OS X.
 
-This project is written in NASM[http://www.nasm.us/].
+This project is written in [NASM](http://www.nasm.us/).
 And there is only one source file(I put them all together since I need to limit their address within the first sector, 512 bytes).
 
 You can re-compile it.
@@ -22,14 +22,13 @@ dd if=main.bin of=a.img bs=512 count=1 conv=notrunc
 
 Following is the final snapshot :-D
 
-{images/res.png}
+![Result](images/res.png)
 
 ###Debug and Check through
 I test it by making it as the first sector(boot sector) in my virtual floppy. Or you can also change it into a DOS com file if you like.
 With **Bochs**, a famous PC simulator, you can run it smoothly without overwrite your own boot sector, which will conflict with your current operating system.
 
-If you haven't install bochs, go here.
-[http://bochs.sourceforge.net/]
+If you haven't install bochs, go [here](http://bochs.sourceforge.net/)
 
 After you get bochs installed, change into the root directory of this project, run the following. It will automatcally read the configration file ''bochsrc'' under the dir and start.
 > If you have the debug function turned on, press ENTER again to start.
@@ -160,5 +159,5 @@ That is all, hope you find it useful!
 
 ##Reference
 
-http://atrevida.comprenica.com/
+[Atrevida Game Programming](http://atrevida.comprenica.com/)
 
